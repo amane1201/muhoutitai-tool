@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "linejs": "github:evex-dev/linejs"
+    "@evex/linejs-client": "^1.0.0"
   }
 }
