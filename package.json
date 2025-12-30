@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "linejs": "^3.0.0"
+    "linejs": "^2.0.0"
   }
 }
