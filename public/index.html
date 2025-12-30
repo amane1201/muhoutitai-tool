@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>LINE AuthToken Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #111;
+            color: #fff;
+            padding: 20px;
+        }
+        textarea, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        pre {
+            background: #222;
+            padding: 10px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+<h2>LINEjs AuthToken 表示</h2>
+
+<textarea id="tokenInput" rows="4" placeholder="AuthTokenを貼り付け"></textarea>
+<button onclick="login()">ログイン</button>
+
+<pre id="result"></pre>
+
+<script>
+async function login() {
+    const token = document.getElementById("tokenInput").value;
+    const result = document.getElementById("result");
+
+    result.textContent = "ログイン中...";
+
+    try {
+        const res = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ authToken: token })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            result.textContent = "取得したAuthToken:\n\n" + data.authToken;
+        } else {
+            result.textContent = "エラー:\n" + data.error;
+        }
+    } catch (e) {
+        result.textContent = "通信エラー:\n" + e.message;
+    }
+}
+</script>
+
+</body>
+</html>
