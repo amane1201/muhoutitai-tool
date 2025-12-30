@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { Client } = require("linejs");
+const { LineClient } = require("@evex/linejs-client");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,18 +16,15 @@ app.post("/login", async (req, res) => {
     }
 
     try {
-        const client = new Client();
-
-        await client.login({
-            authToken: authToken
+        const client = new LineClient({
+            authToken
         });
 
-        // 実際に使われているAuthTokenを取得
-        const currentToken = client.auth.authToken;
+        await client.login();
 
         res.json({
             success: true,
-            authToken: currentToken
+            authToken: client.authToken
         });
 
         await client.logout();
@@ -40,5 +37,5 @@ app.post("/login", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT} で起動中`);
+    console.log(`Server running on port ${PORT}`);
 });
